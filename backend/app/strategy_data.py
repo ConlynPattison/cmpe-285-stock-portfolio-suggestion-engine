@@ -38,7 +38,7 @@ STRATEGY_ASSETS: Dict[StrategyName, List[Asset]] = {
         {"ticker": "NEE", "name": "NextEra Energy", "asset_type": "stock", "rationale": "Large renewable-energy utility."},
         {"ticker": "ENPH", "name": "Enphase Energy", "asset_type": "stock", "rationale": "Solar energy microinverters."},
         {"ticker": "BEP", "name": "Brookfield Renewable Partners", "asset_type": "stock", "rationale": "Global renewable asset manager."},
-        {"ticker": "ORSTED", "name": "Ørsted A/S", "asset_type": "stock", "rationale": "Offshore wind energy leader."},
+        {"ticker": "BEP", "name": "Brookfield Renewable Partners", "asset_type": "stock", "rationale": "Global renewable energy infrastructure with dividend growth."},
         {"ticker": "DSI", "name": "iShares MSCI KLD 400 Social ETF", "asset_type": "etf", "rationale": "Socially responsible US equity exposure."},
         {"ticker": "ESGU", "name": "iShares ESG Aware MSCI USA ETF", "asset_type": "etf", "rationale": "Broad ESG-aware US equity ETF."},
         {"ticker": "ESGV", "name": "Vanguard ESG U.S. Stock ETF", "asset_type": "etf", "rationale": "Low-cost US ESG equity exposure."},
@@ -83,7 +83,7 @@ STRATEGY_ASSETS: Dict[StrategyName, List[Asset]] = {
         {"ticker": "VIG", "name": "Vanguard Dividend Appreciation ETF", "asset_type": "etf", "rationale": "Dividend growers with quality characteristics."},
     ],
     "value": [
-        {"ticker": "BRK.B", "name": "Berkshire Hathaway", "asset_type": "stock", "rationale": "Diversified conglomerate with value orientation."},
+        {"ticker": "BRK-B", "name": "Berkshire Hathaway", "asset_type": "stock", "rationale": "Diversified conglomerate with value orientation."},
         {"ticker": "INTC", "name": "Intel", "asset_type": "stock", "rationale": "Large-cap semiconductor with value characteristics."},
         {"ticker": "IBM", "name": "IBM", "asset_type": "stock", "rationale": "Legacy technology with attractively priced cash flow."},
         {"ticker": "CVS", "name": "CVS Health", "asset_type": "stock", "rationale": "Healthcare retailer with cash flow and value appeal."},

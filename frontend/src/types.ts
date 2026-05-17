@@ -6,38 +6,36 @@ export interface StrategyMetadata {
   description: string;
 }
 
-export interface AssetAllocation {
-  ticker: string;
-  name: string;
-  strategy: StrategyName;
-  allocation_usd: number;
-  weight: number;
-}
-
-export interface PortfolioResponse {
-  allocations: AssetAllocation[];
-  total_allocation_usd: number;
-  strategy_count: number;
-}
-
 export interface TrendPoint {
   date: string;
   total_value_usd: number;
 }
 
-export interface SavedAllocation extends AssetAllocation {
+/** Single holding returned by both the generate and detail endpoints. */
+export interface AllocationItem {
+  ticker: string;
+  name: string;
+  strategy: StrategyName;
+  allocation_usd: number;
+  weight: number;
   shares: number;
-  purchase_price_usd: number;
-  current_price_usd: number;
+  purchase_price: number;
+  current_price: number;
 }
 
-export interface SavedPortfolio {
-  id: string;
-  name: string;
-  created_at: string;
-  amount_invested_usd: number;
-  strategies: StrategyName[];
-  allocations: SavedAllocation[];
+/** Response from POST /api/portfolio (generate, does not save). */
+export interface PortfolioResponse {
+  allocations: AllocationItem[];
+  total_allocation_usd: number;
   current_value_usd: number;
+  strategy_count: number;
   trend: TrendPoint[];
+}
+
+/** Summary item from GET /api/portfolios list. */
+export interface PortfolioSummary {
+  id:   id:   id:   id:   id:   id:   id:   id:   id:   id:   id:   id:   id:   id:   id:   id:   id:   id:   id:   id:   id:   id:   id:   ifo  id:   id:   id:   id:   id:   id:   id:   id:   id:   id:   id:   id:   idg;
+  amount_usd: number;
+  strategies: StrategyName[];
+  created  created  creaal  created  created onItem[  created  created  creaal  er  created  crendPoint[];
 }
