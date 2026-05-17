@@ -15,11 +15,11 @@ const fmt = (v: number) =>
 const pct = (v: number) => `${v >= 0 ? "+" : ""}${v.toFixed(2)}%`;
 
 const STRATEGY_ICONS: Record<string, string> = {
-  "Aggressive Growth":   "📈",
+  "Aggressive Growth": "📈",
   "Conservative Income": "🛡️",
-  "ESG / Sustainable":   "🌱",
-  "Real Estate":         "🏢",
-  "Technology":          "💡",
+  "ESG / Sustainable": "🌱",
+  "Real Estate": "🏢",
+  "Technology": "💡",
 };
 
 export function CreatePortfolio() {
@@ -160,7 +160,7 @@ export function CreatePortfolio() {
             <label className="mb-1 block text-sm font-semibold text-slate-700">
               Investment amount
             </label>
-            <p className="mb-4 text-xs text-slate-400">Minimum $5,000 · up to $10,000,000</p>
+            <p className="mb-4 text-xs text-slate-400">Minimum $5,000</p>
             <div className="relative">
               <span className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-slate-400 font-medium">
                 $
@@ -176,7 +176,7 @@ export function CreatePortfolio() {
             </div>
             {amountError && (
               <p className="mt-2 flex items-center gap-1.5 text-sm text-rose-600">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.4"/><path d="M7 4v3.5M7 9.5v.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.4" /><path d="M7 4v3.5M7 9.5v.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" /></svg>
                 {amountError}
               </p>
             )}
@@ -226,8 +226,8 @@ export function CreatePortfolio() {
                       checked
                         ? "border-indigo-500 bg-indigo-50 ring-2 ring-indigo-400 shadow-sm active:bg-indigo-100"
                         : disabled
-                        ? "cursor-not-allowed border-slate-100 bg-slate-50 opacity-40"
-                        : "cursor-pointer border-slate-200 bg-white hover:border-indigo-300 hover:bg-slate-50 active:bg-indigo-50 active:border-indigo-400",
+                          ? "cursor-not-allowed border-slate-100 bg-slate-50 opacity-40"
+                          : "cursor-pointer border-slate-200 bg-white hover:border-indigo-300 hover:bg-slate-50 active:bg-indigo-50 active:border-indigo-400",
                     ].join(" ")}
                   >
                     <span className="mt-0.5 text-2xl leading-none select-none">{icon}</span>
@@ -251,7 +251,7 @@ export function CreatePortfolio() {
                     ].join(" ")}>
                       {checked && (
                         <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-                          <path d="M1 4l3 3 5-6" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M1 4l3 3 5-6" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       )}
                     </div>
@@ -270,12 +270,12 @@ export function CreatePortfolio() {
             >
               {isLoading ? (
                 <>
-                  <svg className="animate-spin" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="white" strokeWidth="2" strokeDasharray="20" strokeDashoffset="10"/></svg>
+                  <svg className="animate-spin" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="white" strokeWidth="2" strokeDasharray="20" strokeDashoffset="10" /></svg>
                   Fetching live prices…
                 </>
               ) : (
                 <>
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 10 L7 4 L11 7 L14 2" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/><path d="M11 2h3v3" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 10 L7 4 L11 7 L14 2" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><path d="M11 2h3v3" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
                   Generate portfolio
                 </>
               )}
@@ -287,7 +287,7 @@ export function CreatePortfolio() {
 
           {error && (
             <div className="flex items-start gap-3 rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
-              <svg className="mt-0.5 shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5"/><path d="M8 5v4M8 10.5v1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+              <svg className="mt-0.5 shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5" /><path d="M8 5v4M8 10.5v1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
               {error}
             </div>
           )}
@@ -385,16 +385,16 @@ export function CreatePortfolio() {
                       className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-40"
                     >
                       {isSaving ? (
-                        <svg className="animate-spin" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="white" strokeWidth="2" strokeDasharray="18" strokeDashoffset="9"/></svg>
+                        <svg className="animate-spin" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="white" strokeWidth="2" strokeDasharray="18" strokeDashoffset="9" /></svg>
                       ) : (
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-7" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-7" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       )}
                       Save
                     </button>
                   </div>
                   {savedConfirmation && (
                     <div className="mt-3 flex items-center gap-2 rounded-xl bg-emerald-50 border border-emerald-200 px-3 py-2.5 text-sm text-emerald-700">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5"/><path d="M5 8l2.5 2.5 4-4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5" /><path d="M5 8l2.5 2.5 4-4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       Saved as &ldquo;{savedConfirmation}&rdquo;
                       <button
                         type="button"
@@ -422,7 +422,7 @@ export function CreatePortfolio() {
           ) : (
             <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-slate-200 bg-white px-8 py-16 text-center shadow-sm">
               <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-50">
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M4 20 L10 12 L16 15.5 L24 6" stroke="#6366f1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/><circle cx="24" cy="6" r="3" fill="#6366f1"/></svg>
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M4 20 L10 12 L16 15.5 L24 6" stroke="#6366f1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" /><circle cx="24" cy="6" r="3" fill="#6366f1" /></svg>
               </div>
               <p className="text-sm font-medium text-slate-600">Your allocation will appear here</p>
               <p className="text-xs text-slate-400 max-w-[180px]">

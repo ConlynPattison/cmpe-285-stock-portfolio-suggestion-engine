@@ -226,3 +226,85 @@ Enforced identically on both client (live strength meter) and server (AuthContex
 - `yfinance` batch downloads occasionally drop dot-notation tickers. `BRK.B` is stored as `BRK-B` (Yahoo Finance hyphen format); any ticker missing from a batch is retried individually.
 - Price data is cached in-process for 60 seconds to avoid rate-limiting during rapid iteration.
 - This is an educational project — it is not financial advice.
+
+---
+
+## Test Cases
+
+**Test Case 1: Minimum Investment Amount Validation**
+* **Objective:** Ensure the system rejects investment amounts below the $5,000 USD minimum.
+* **Steps:** 
+    1. Navigate to the "Build your portfolio" home page.
+    2. In the "Investment amount" input field, type `4500`.
+    3. Observe the error message below the input field and check the "Generate portfolio" button.
+* **Expected Result:** A red error message "Minimum investment is $5,000." appears, and the "Generate portfolio" button becomes disabled.
+
+**Test Case 2: Empty Strategy Selection Validation**
+* **Objective:** Ensure the engine requires at least one investment strategy to proceed.
+* **Steps:**
+    1. Enter a valid amount (e.g., `10000`) into the "Investment amount" field.
+    2. Ensure that **no** strategies are selected in the strategy list.
+    3. Look at the "Generate portfolio" button.
+* **Expected Result:** The button is disabled, and a message stating "Select a strategy to continue." is visible next to it. 
+
+**Test Case 3: Single Strategy Portfolio Generation (Asset Count & Allocation)**
+* **Objective:** Verify that selecting a single strategy returns at least 3 distinct stocks/ETFs and the money is divided evenly.
+* **Steps:**
+    1. Enter `9000` as the investment amount.
+    2. Select the **Ethical Investing** strategy.
+    3. Click "Generate portfolio".
+* **Expected Result:** The right-hand column populates with exactly 3 different assets (e.g., NextEra Energy, Enphase Energy, etc.). The $9,000 should be divided equally, allocating $3,000 to each of the 3 assets (equating to 33.3% weight each).
+
+**Test Case 4: Two-Strategy Blended Portfolio Generation**
+* **Objective:** Verify that the engine correctly blends two strategies.
+* **Steps:**
+    1. Enter `12000` as the investment amount.
+    2. Select the **Index Investing** and **Value Investing** strategies.
+    3. Click "Generate portfolio".
+* **Expected Result:** The generated portfolio contains exactly 6 assets (3 from Index Investing, 3 from Value Investing). The $12,000 is split evenly, allocating $2,000 per asset.
+
+**Test Case 5: Exceeding Strategy Selection Limit**
+* **Objective:** Ensure the system prevents a user from picking more than two strategies at a time.
+* **Steps:**
+    1. Select **Quality Investing**.
+    2. Select **Growth Investing**.
+    3. Attempt to click on a third strategy, like **Ethical Investing**.
+* **Expected Result:** The third strategy (and any other unselected strategies) becomes greyed out and cannot be clicked. The UI will explicitly display "2/2 selected".
+
+**Test Case 6: Real-Time Up-to-the-Second Market Values**
+* **Objective:** Verify that the application is fetching current stock market prices from the internet.
+* **Steps:**
+    1. Generate a portfolio with $10,000 and the **Growth Investing** strategy.
+    2. Look at the right-hand panel under the "Suggested allocation" list.
+    3. Check the text below the progress bars that says something like "X shares @ $Y now $Z".
+* **Expected Result:** The "$Z" value reflects live market data. Because the engine fetches current prices at the time of generation, the "Live value" box at the top right will display the total current value of the portfolio. 
+
+**Test Case 7: 5-Day Historical Portfolio Trend Chart**
+* **Objective:** Ensure the engine provides a visual weekly trend (5 days history) of the overall portfolio value.
+* **Steps:**
+    1. Generate a valid portfolio using any strategy.
+    2. Scroll down on the right-hand panel to the "5-day performance" section.
+* **Expected Result:** A line/bar chart is rendered containing exactly 5 data points. These points represent the total value of your specific stock allocation over the last 5 trading days.
+
+**Test Case 8: Saving a Portfolio**
+* **Objective:** Verify that users can save a generated portfolio to the database for later viewing.
+* **Steps:**
+    1. Generate a portfolio.
+    2. Scroll to the "Save this portfolio" section below the stock list.
+    3. Enter the name `Test Grader Portfolio` into the text box.
+    4. Click the "Save" button.
+* **Expected Result:** A green success message appears stating "Saved as Test Grader Portfolio", along with a link to "View →".
+
+**Test Case 9: Viewing the Saved Portfolios List**
+* **Objective:** Verify that the "View Portfolios" page correctly lists all user-saved portfolios.
+* **Steps:**
+    1. Click the "View →" link from the previous step, or navigate to `http://localhost:5173/portfolios`.
+    2. Look for `Test Grader Portfolio` in the list of cards.
+* **Expected Result:** The portfolio is listed with its correct initial investment amount and the tags of the strategies used to generate it.
+
+**Test Case 10: Reloading a Saved Portfolio with Updated Live Values**
+* **Objective:** Ensure that loading a previously saved portfolio recalculates its total value based on real-time prices while maintaining the original share allocation.
+* **Steps:**
+    1. On the `http://localhost:5173/portfolios` page, click on `Test Grader Portfolio`.
+    2. Observe the loaded portfolio details.
+* **Expected Result:** The original stock picks and share counts are exactly the same as when it was saved. However, the system performs a fresh API request so the "Live value" box and current individual asset prices reflect the most up-to-date market data.
