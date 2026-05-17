@@ -7,13 +7,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 from .db import get_session, init_db
-from .models import PortfolioHistory
+from .models import Portfolio, PortfolioAllocation, PortfolioHistory
 from .portfolio_builder import build_portfolio_allocation
 from .price_fetcher import fetch_current_prices
 from .schemas import (
     PortfolioHistoryResponse,
     PortfolioRequest,
     PortfolioResponse,
+    SavedPortfolioDetail,
+    SavedPortfolioSummary,
     StrategyMetadata,
 )
 from .strategy_data import STRATEGY_METADATA
@@ -78,6 +80,29 @@ def create_portfolio(request: PortfolioRequest, session: Session = Depends(get_s
         existing.total_value = total_value
     else:
         session.add(PortfolioHistory(snapshot_date=snapshot_date, total_value=total_value))
+
+    # Persist named portfolio
+    if request.name:
+        if session.query(Portfolio).filter_by(name=request.name).first():
+            raise HTTPException(status_code=409, detail=f"A portfolio named '{request.name}' already exists.")
+        portfolio = Portfolio(
+            name=request.name,
+            amount_usd=request.amount_usd,
+            strategies=",".join(request.strategies),
+        )
+        session.add(portfolio)
+        session.flush()
+        for item in allocations:
+            session.add(PortfolioAllocation(
+                portfolio_id=portfolio.id,
+                ticker=item["ticker"],
+                name=item["name"],
+                strategy=item["strategy"],
+                allocation_usd=item["allocation_usd"],
+                weight=item["weight"],
+                purchase_price=prices.get(item["ticker"]),
+            ))
+
     session.commit()
 
     return {
@@ -101,3 +126,52 @@ def portfolio_history(session: Session = Depends(get_session)):
             for row in reversed(rows)
         ]
     }
+
+
+@app.get("/api/portfolios", response_model=List[SavedPortfolioSummary])
+def list_portfolios(session: Session = Depends(get_session)):
+    portfolios = session.query(Portfolio).order_by(Portfolio.created_at.desc()).all()
+    return [
+        {
+            "id": p.id,
+            "name": p.name,
+            "amount_usd": p.amount_usd,
+            "strategies": p.strategies.split(","),
+            "created_at": p.created_at,
+        }
+        for p in portfolios
+    ]
+
+
+@app.get("/api/portfolios/{portfolio_id}", response_model=SavedPortfolioDetail)
+def get_portfolio(portfolio_id: int, session: Session = Depends(get_session)):
+    portfolio = session.get(Portfolio, portfolio_id)
+    if not portfolio:
+        raise HTTPException(status_code=404, detail="Portfolio not found.")
+    return {
+        "id": portfolio.id,
+        "name": portfolio.name,
+        "amount_usd": portfolio.amount_usd,
+        "strategies": portfolio.strategies.split(","),
+        "created_at": portfolio.created_at,
+        "allocations": [
+            {
+                "ticker": a.ticker,
+                "name": a.name,
+                "strategy": a.strategy,
+                "allocation_usd": a.allocation_usd,
+                "weight": a.weight,
+                "purchase_price": a.purchase_price,
+            }
+            for a in portfolio.allocations
+        ],
+    }
+
+
+@app.delete("/api/portfolios/{portfolio_id}", status_code=204)
+def delete_portfolio(portfolio_id: int, session: Session = Depends(get_session)):
+    portfolio = session.get(Portfolio, portfolio_id)
+    if not portfolio:
+        raise HTTPException(status_code=404, detail="Portfolio not found.")
+    session.delete(portfolio)
+    session.commit()
