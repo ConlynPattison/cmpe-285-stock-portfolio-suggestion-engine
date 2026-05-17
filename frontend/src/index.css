@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 body {
-  @apply bg-slate-50 text-slate-900 antialiased;
+    @apply bg-slate-50 text-slate-900 antialiased;
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
