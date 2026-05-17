@@ -1,4 +1,5 @@
-from typing import List, Literal
+from datetime import datetime
+from typing import List, Literal, Optional
 
 from pydantic import BaseModel, Field, conlist
 
@@ -22,6 +23,7 @@ class AssetAllocation(BaseModel):
 class PortfolioRequest(BaseModel):
     amount_usd: float = Field(..., ge=5000)
     strategies: conlist(StrategyName, min_length=1, max_length=2)
+    name: Optional[str] = None  # if provided, portfolio is persisted
 
 
 class PortfolioResponse(BaseModel):
@@ -37,3 +39,29 @@ class HistoryItem(BaseModel):
 
 class PortfolioHistoryResponse(BaseModel):
     history: List[HistoryItem]
+
+
+class SavedAllocation(BaseModel):
+    ticker: str
+    name: str
+    strategy: str
+    allocation_usd: float
+    weight: float
+    purchase_price: Optional[float] = None
+
+
+class SavedPortfolioSummary(BaseModel):
+    id: int
+    name: str
+    amount_usd: float
+    strategies: List[str]
+    created_at: datetime
+
+
+class SavedPortfolioDetail(BaseModel):
+    id: int
+    name: str
+    amount_usd: float
+    strategies: List[str]
+    created_at: datetime
+    allocations: List[SavedAllocation]
