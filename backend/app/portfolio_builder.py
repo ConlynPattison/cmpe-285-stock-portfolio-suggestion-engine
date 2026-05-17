@@ -1,4 +1,5 @@
-from typing import List
+import random
+from typing import List, Optional
 
 from .strategy_data import STRATEGY_ASSETS, StrategyName
 
@@ -11,17 +12,20 @@ def build_portfolio_allocation(
     amount_usd: float,
     strategies: List[StrategyName],
     assets_per_strategy: int = DEFAULT_ASSETS_PER_STRATEGY,
+    rng: Optional[random.Random] = None,
 ):
     if amount_usd < MIN_INVESTMENT_AMOUNT:
         raise ValueError(f"Investment amount must be at least ${MIN_INVESTMENT_AMOUNT}")
     if len(strategies) < 1 or len(strategies) > MAX_STRATEGIES:
         raise ValueError("Select 1 or 2 strategies only.")
 
-    selected = [
-        (strategy, asset)
-        for strategy in strategies
-        for asset in STRATEGY_ASSETS[strategy][:assets_per_strategy]
-    ]
+    picker = rng or random
+    selected: List[tuple] = []
+    for strategy in strategies:
+        pool = STRATEGY_ASSETS[strategy]
+        k = min(assets_per_strategy, len(pool))
+        for asset in picker.sample(pool, k):
+            selected.append((strategy, asset))
 
     if not selected:
         return []
