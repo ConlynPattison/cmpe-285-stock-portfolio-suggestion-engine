@@ -1,12 +1,29 @@
+import logging
 from typing import Dict, List
+
+import yfinance as yf
+
+logger = logging.getLogger(__name__)
 
 
 def fetch_current_prices(tickers: List[str]) -> Dict[str, float]:
-    """Stub price fetcher.
+    """Fetch current prices for a list of tickers using yfinance."""
+    prices = {}
+    failed = []
 
-    Replace this function with a live market data provider for real current pricing.
-    """
-    return {
-        ticker: round(100.0 + index * 7.5, 2)
-        for index, ticker in enumerate(tickers)
-    }
+    for ticker in tickers:
+        try:
+            data = yf.Ticker(ticker)
+            info = data.fast_info
+            price = info.last_price
+            if price is None or price <= 0:
+                raise ValueError(f"Invalid price for {ticker}: {price}")
+            prices[ticker] = round(float(price), 2)
+        except Exception as e:
+            logger.warning(f"Failed to fetch price for {ticker}: {e}")
+            failed.append(ticker)
+
+    if failed:
+        raise RuntimeError(f"Could not fetch live prices for: {', '.join(failed)}")
+
+    return prices
